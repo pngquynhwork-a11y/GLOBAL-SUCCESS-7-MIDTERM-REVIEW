@@ -1,0 +1,1011 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GLOBAL SUCCESS 7 - MIDTERM REVIEW</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body {
+      font-family: 'Times New Roman', Times, serif;
+    }
+    .custom-scroll::-webkit-scrollbar {
+      width: 6px;
+    }
+    .custom-scroll::-webkit-scrollbar-thumb {
+      background: #cbd5e1;
+      border-radius: 4px;
+    }
+    /* Canh đều text 2 bên chuẩn sư phạm */
+    .text-justify-custom {
+      text-align: justify;
+      text-justify: inter-word;
+    }
+  </style>
+</head>
+<body class="bg-stone-100 text-stone-900 min-h-screen flex flex-col text-lg leading-relaxed antialiased">
+
+  <!-- ==================== MÀN HÌNH BẮT ĐẦU ==================== -->
+  <div id="start-screen" class="max-w-3xl mx-auto my-8 p-6 sm:p-10 bg-white shadow-xl rounded-xl border border-stone-300">
+    <div class="text-center border-b-2 border-stone-800 pb-5 mb-6">
+      <h3 class="text-base sm:text-lg font-bold uppercase tracking-wider text-stone-600">Phòng GD&ĐT • Đề Ôn Tập Giữa Học Kỳ I (2026 - 2027)</h3>
+      <h1 class="text-2xl sm:text-3xl font-extrabold text-blue-900 mt-2">GLOBAL SUCCESS 7 - MIDTERM REVIEW</h1>
+      <p class="text-sm sm:text-base italic text-stone-600 mt-1">Môn thi: TIẾNG ANH 7 | Thời gian: 60 phút (Không bao gồm phần nghe)</p>
+    </div>
+
+    <!-- Hướng dẫn & Quy định -->
+    <div class="bg-blue-50 border-l-4 border-blue-700 p-4 rounded-r-lg mb-6 text-base text-justify-custom">
+      <h4 class="font-bold text-blue-900 mb-2">📌 HƯỚNG DẪN LÀM BÀI:</h4>
+      <ul class="list-disc list-inside space-y-1 text-stone-800 text-base">
+        <li>Bài làm gồm <strong>32 câu hỏi</strong> (từ <strong>Câu 9</strong> đến <strong>Câu 40</strong>).</li>
+        <li>Thời gian đếm ngược chính xác <strong>60 phút</strong> kể từ khi bấm nút "Bắt đầu làm bài".</li>
+        <li>Học sinh làm trực tiếp trên giao diện: chọn đáp án trắc nghiệm và gõ câu trả lời vào ô trống cho phần tự luận.</li>
+        <li>Sau khi bấm <strong>Nộp bài</strong> hoặc khi <strong>hết giờ</strong>, hệ thống sẽ tự động chấm điểm, hiển thị đáp án đúng và <strong>lời giải chi tiết</strong> cho từng câu.</li>
+      </ul>
+    </div>
+
+    <!-- Nhập thông tin học sinh -->
+    <div class="space-y-4 mb-8 bg-stone-50 p-5 rounded-lg border border-stone-200">
+      <h3 class="font-bold text-lg text-stone-800">Thông tin học sinh</h3>
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div>
+          <label class="block text-sm font-semibold text-stone-700 mb-1" for="student-name">Họ và tên học sinh <span class="text-red-500">*</span>:</label>
+          <input type="text" id="student-name" placeholder="Ví dụ: Nguyễn Văn An" class="w-full px-3 py-2 border border-stone-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-600 text-base">
+        </div>
+        <div>
+          <label class="block text-sm font-semibold text-stone-700 mb-1" for="student-class">Lớp học <span class="text-red-500">*</span>:</label>
+          <input type="text" id="student-class" placeholder="Ví dụ: 7A1" class="w-full px-3 py-2 border border-stone-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-600 text-base">
+        </div>
+      </div>
+      <p id="start-error" class="text-red-600 text-sm hidden font-semibold">⚠️ Vui lòng nhập đầy đủ Họ tên và Lớp trước khi bắt đầu!</p>
+    </div>
+
+    <div class="text-center">
+      <button onclick="startExam()" class="px-8 py-3.5 bg-blue-800 hover:bg-blue-900 text-white font-bold text-xl rounded-lg shadow-lg hover:shadow-xl transition-all transform active:scale-95 duration-150">
+        🚀 BẮT ĐẦU LÀM BÀI
+      </button>
+    </div>
+  </div>
+
+  <!-- ==================== HEADER KHI ĐANG LÀM BÀI ==================== -->
+  <header id="exam-header" class="hidden sticky top-0 z-40 bg-white/95 backdrop-blur border-b border-stone-300 shadow-md">
+    <div class="max-w-4xl mx-auto px-4 py-2.5 flex flex-wrap items-center justify-between gap-3">
+      <div>
+        <h2 class="text-base sm:text-lg font-bold text-blue-950">GLOBAL SUCCESS 7 - MIDTERM REVIEW</h2>
+        <p class="text-xs sm:text-sm text-stone-600 font-medium" id="header-student-info">Học sinh: -- | Lớp: --</p>
+      </div>
+
+      <div class="flex items-center gap-4">
+        <!-- Đồng hồ đếm ngược -->
+        <div class="flex items-center gap-2 bg-stone-100 px-3 py-1.5 rounded-lg border border-stone-300">
+          <svg class="w-5 h-5 text-red-600 animate-pulse" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+          <span class="text-xs uppercase text-stone-500 font-bold">Thời gian:</span>
+          <span id="timer-display" class="font-mono text-xl font-extrabold text-red-600">60:00</span>
+        </div>
+
+        <button onclick="openConfirmModal()" class="px-5 py-2 bg-green-700 hover:bg-green-800 text-white text-base font-bold rounded shadow transition">
+          Nộp Bài
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- ==================== NỘI DUNG ĐỀ THI ==================== -->
+  <main id="exam-main" class="hidden max-w-4xl mx-auto w-full px-4 py-8 flex-grow">
+    <form id="quiz-form" onsubmit="event.preventDefault();" class="space-y-10">
+
+      <!-- ================= B. USE OF LANGUAGE ================= -->
+      <section class="bg-white p-6 sm:p-8 rounded-xl shadow-md border border-stone-300">
+        <div class="border-b-2 border-stone-800 pb-2 mb-6">
+          <h2 class="text-xl sm:text-2xl font-bold uppercase text-stone-900 tracking-wide">B. USE OF LANGUAGE</h2>
+        </div>
+
+        <!-- Part 1: Pronunciation -->
+        <div class="mb-8">
+          <h3 class="font-bold text-lg text-blue-900 mb-3 italic text-justify-custom">Part 1. Choose the word which has the underlined part pronounced differently from the others. (0.5 point)</h3>
+          
+          <!-- Q9 -->
+          <div class="p-4 mb-4 rounded-lg bg-stone-50 border border-stone-200">
+            <p class="font-semibold mb-2 text-justify-custom"><strong>Question 9:</strong></p>
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 text-base">
+              <label class="flex items-center gap-2 p-2 rounded border border-stone-200 hover:bg-white cursor-pointer"><input type="radio" name="q9" value="A"> A. h<u>a</u>te</label>
+              <label class="flex items-center gap-2 p-2 rounded border border-stone-200 hover:bg-white cursor-pointer"><input type="radio" name="q9" value="B"> B. f<u>a</u>st</label>
+              <label class="flex items-center gap-2 p-2 rounded border border-stone-200 hover:bg-white cursor-pointer"><input type="radio" name="q9" value="C"> C. t<u>a</u>ke</label>
+              <label class="flex items-center gap-2 p-2 rounded border border-stone-200 hover:bg-white cursor-pointer"><input type="radio" name="q9" value="D"> D. m<u>a</u>ke</label>
+            </div>
+          </div>
+
+          <!-- Q10 -->
+          <div class="p-4 rounded-lg bg-stone-50 border border-stone-200">
+            <p class="font-semibold mb-2 text-justify-custom"><strong>Question 10:</strong></p>
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 text-base">
+              <label class="flex items-center gap-2 p-2 rounded border border-stone-200 hover:bg-white cursor-pointer"><input type="radio" name="q10" value="A"> A. start<u>ed</u></label>
+              <label class="flex items-center gap-2 p-2 rounded border border-stone-200 hover:bg-white cursor-pointer"><input type="radio" name="q10" value="B"> B. want<u>ed</u></label>
+              <label class="flex items-center gap-2 p-2 rounded border border-stone-200 hover:bg-white cursor-pointer"><input type="radio" name="q10" value="C"> C. need<u>ed</u></label>
+              <label class="flex items-center gap-2 p-2 rounded border border-stone-200 hover:bg-white cursor-pointer"><input type="radio" name="q10" value="D"> D. play<u>ed</u></label>
+            </div>
+          </div>
+        </div>
+
+        <!-- Part 2: Stress -->
+        <div class="mb-8">
+          <h3 class="font-bold text-lg text-blue-900 mb-3 italic text-justify-custom">Part 2. Choose the word A, B, C or D that has a different stress pattern. (0.25 point)</h3>
+          <!-- Q11 -->
+          <div class="p-4 rounded-lg bg-stone-50 border border-stone-200">
+            <p class="font-semibold mb-2 text-justify-custom"><strong>Question 11:</strong></p>
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 text-base">
+              <label class="flex items-center gap-2 p-2 rounded border border-stone-200 hover:bg-white cursor-pointer"><input type="radio" name="q11" value="A"> A. garden</label>
+              <label class="flex items-center gap-2 p-2 rounded border border-stone-200 hover:bg-white cursor-pointer"><input type="radio" name="q11" value="B"> B. healthy</label>
+              <label class="flex items-center gap-2 p-2 rounded border border-stone-200 hover:bg-white cursor-pointer"><input type="radio" name="q11" value="C"> C. protect</label>
+              <label class="flex items-center gap-2 p-2 rounded border border-stone-200 hover:bg-white cursor-pointer"><input type="radio" name="q11" value="D"> D. model</label>
+            </div>
+          </div>
+        </div>
+
+        <!-- Part 3: Multiple choice -->
+        <div>
+          <h3 class="font-bold text-lg text-blue-900 mb-3 italic text-justify-custom">Part 3. Choose the correct option A, B, C or D to complete each sentence. (2.25 points)</h3>
+
+          <!-- Q12 -->
+          <div class="p-4 mb-4 rounded-lg bg-stone-50 border border-stone-200">
+            <p class="font-semibold mb-2 text-justify-custom"><strong>Question 12:</strong> Lan has a high fever and a cough, so she should see a _______.</p>
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 text-base">
+              <label class="flex items-center gap-2 p-2 rounded border border-stone-200 hover:bg-white cursor-pointer"><input type="radio" name="q12" value="A"> A. doctor</label>
+              <label class="flex items-center gap-2 p-2 rounded border border-stone-200 hover:bg-white cursor-pointer"><input type="radio" name="q12" value="B"> B. teacher</label>
+              <label class="flex items-center gap-2 p-2 rounded border border-stone-200 hover:bg-white cursor-pointer"><input type="radio" name="q12" value="C"> C. farmer</label>
+              <label class="flex items-center gap-2 p-2 rounded border border-stone-200 hover:bg-white cursor-pointer"><input type="radio" name="q12" value="D"> D. driver</label>
+            </div>
+          </div>
+
+          <!-- Q13 -->
+          <div class="p-4 mb-4 rounded-lg bg-stone-50 border border-stone-200">
+            <p class="font-semibold mb-2 text-justify-custom"><strong>Question 13:</strong> My brother enjoys _______ models of planes from recycled wood.</p>
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 text-base">
+              <label class="flex items-center gap-2 p-2 rounded border border-stone-200 hover:bg-white cursor-pointer"><input type="radio" name="q13" value="A"> A. building</label>
+              <label class="flex items-center gap-2 p-2 rounded border border-stone-200 hover:bg-white cursor-pointer"><input type="radio" name="q13" value="B"> B. build</label>
+              <label class="flex items-center gap-2 p-2 rounded border border-stone-200 hover:bg-white cursor-pointer"><input type="radio" name="q13" value="C"> C. built</label>
+              <label class="flex items-center gap-2 p-2 rounded border border-stone-200 hover:bg-white cursor-pointer"><input type="radio" name="q13" value="D"> D. builds</label>
+            </div>
+          </div>
+
+          <!-- Q14 -->
+          <div class="p-4 mb-4 rounded-lg bg-stone-50 border border-stone-200">
+            <p class="font-semibold mb-2 text-justify-custom"><strong>Question 14:</strong> Last year, our club _______ hundreds of warm coats to poor children in mountainous areas.</p>
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 text-base">
+              <label class="flex items-center gap-2 p-2 rounded border border-stone-200 hover:bg-white cursor-pointer"><input type="radio" name="q14" value="A"> A. donates</label>
+              <label class="flex items-center gap-2 p-2 rounded border border-stone-200 hover:bg-white cursor-pointer"><input type="radio" name="q14" value="B"> B. donated</label>
+              <label class="flex items-center gap-2 p-2 rounded border border-stone-200 hover:bg-white cursor-pointer"><input type="radio" name="q14" value="C"> C. donating</label>
+              <label class="flex items-center gap-2 p-2 rounded border border-stone-200 hover:bg-white cursor-pointer"><input type="radio" name="q14" value="D"> D. donate</label>
+            </div>
+          </div>
+
+          <!-- Q15 -->
+          <div class="p-4 mb-4 rounded-lg bg-stone-50 border border-stone-200">
+            <p class="font-semibold mb-2 text-justify-custom"><strong>Question 15:</strong> My father works hard all day, _______ he feels tired in the evening.</p>
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 text-base">
+              <label class="flex items-center gap-2 p-2 rounded border border-stone-200 hover:bg-white cursor-pointer"><input type="radio" name="q15" value="A"> A. because</label>
+              <label class="flex items-center gap-2 p-2 rounded border border-stone-200 hover:bg-white cursor-pointer"><input type="radio" name="q15" value="B"> B. but</label>
+              <label class="flex items-center gap-2 p-2 rounded border border-stone-200 hover:bg-white cursor-pointer"><input type="radio" name="q15" value="C"> C. so</label>
+              <label class="flex items-center gap-2 p-2 rounded border border-stone-200 hover:bg-white cursor-pointer"><input type="radio" name="q15" value="D"> D. or</label>
+            </div>
+          </div>
+
+          <!-- Q16 -->
+          <div class="p-4 mb-4 rounded-lg bg-stone-50 border border-stone-200">
+            <p class="font-semibold mb-2 text-justify-custom"><strong>Question 16:</strong> Tom: "Why don't we clean up the park this Saturday?" - Phong: "_______"</p>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-base">
+              <label class="flex items-center gap-2 p-2 rounded border border-stone-200 hover:bg-white cursor-pointer"><input type="radio" name="q16" value="A"> A. Great idea!</label>
+              <label class="flex items-center gap-2 p-2 rounded border border-stone-200 hover:bg-white cursor-pointer"><input type="radio" name="q16" value="B"> B. You're welcome.</label>
+              <label class="flex items-center gap-2 p-2 rounded border border-stone-200 hover:bg-white cursor-pointer"><input type="radio" name="q16" value="C"> C. No, I don't.</label>
+              <label class="flex items-center gap-2 p-2 rounded border border-stone-200 hover:bg-white cursor-pointer"><input type="radio" name="q16" value="D"> D. Yes, I do.</label>
+            </div>
+          </div>
+
+          <!-- Q17 Notice -->
+          <div class="p-4 mb-4 rounded-lg bg-stone-50 border border-stone-200">
+            <p class="font-semibold mb-3 text-justify-custom"><strong>Question 17:</strong> What does the notice below ask students to do?</p>
+            
+            <!-- Graphic Notice -->
+            <div class="max-w-xs mx-auto mb-4 bg-emerald-700 text-white p-4 rounded-xl border-4 border-white shadow-md text-center">
+              <div class="flex justify-center items-center gap-4 mb-2">
+                <svg class="w-12 h-12 text-yellow-300" fill="currentColor" viewBox="0 0 20 20"><path d="M11 3a1 1 0 10-2 0v1a1 1 0 102 0V3zM15.657 5.757a1 1 0 00-1.414-1.414l-.707.707a1 1 0 001.414 1.414l.707-.707zM18 10a1 1 0 01-1 1h-1a1 1 0 110-2h1a1 1 0 011 1zM5.05 6.464A1 1 0 106.464 5.05l-.707-.707a1 1 0 00-1.414 1.414l.707.707zM5 10a1 1 0 01-1 1H3a1 1 0 110-2h1a1 1 0 011 1zM8 16v-1h4v1a2 2 0 11-4 0zM12 14H8a4 4 0 01-3.465-6.002C4.78 7.37 5.342 6.78 6 6.326V6a4 4 0 018 0v.326c.658.454 1.22 1.044 1.465 1.672A4 4 0 0112 14z"></path></svg>
+                <div class="bg-white text-emerald-900 p-2 rounded border border-emerald-800 text-xs font-black tracking-widest uppercase">
+                  SWITCH [OFF]
+                </div>
+              </div>
+              <p class="font-extrabold uppercase text-sm sm:text-base tracking-wider border-t border-emerald-500 pt-2 text-center">
+                PLEASE TURN OFF ALL LIGHTS BEFORE LEAVING
+              </p>
+            </div>
+
+            <div class="space-y-2 text-base text-justify-custom">
+              <label class="flex items-center gap-2 p-2 rounded border border-stone-200 hover:bg-white cursor-pointer"><input type="radio" name="q17" value="A"> A. You must leave the lights on when leaving.</label>
+              <label class="flex items-center gap-2 p-2 rounded border border-stone-200 hover:bg-white cursor-pointer"><input type="radio" name="q17" value="B"> B. Turn off the lights when you leave the classroom.</label>
+              <label class="flex items-center gap-2 p-2 rounded border border-stone-200 hover:bg-white cursor-pointer"><input type="radio" name="q17" value="C"> C. You cannot use lights in the classroom.</label>
+              <label class="flex items-center gap-2 p-2 rounded border border-stone-200 hover:bg-white cursor-pointer"><input type="radio" name="q17" value="D"> D. Lights will turn off automatically.</label>
+            </div>
+          </div>
+
+          <!-- Q18 Road sign -->
+          <div class="p-4 mb-4 rounded-lg bg-stone-50 border border-stone-200">
+            <p class="font-semibold mb-3 text-justify-custom"><strong>Question 18:</strong> What does the road sign below mean?</p>
+            
+            <!-- Graphic Sign -->
+            <div class="max-w-[200px] mx-auto mb-4 bg-white border-2 border-stone-800 rounded-lg p-3 text-center shadow-md">
+              <div class="w-24 h-24 mx-auto rounded-full border-4 border-red-600 flex items-center justify-center relative my-1">
+                <span class="text-4xl font-black text-black">P</span>
+                <div class="absolute w-full h-1 bg-red-600 transform -rotate-45"></div>
+              </div>
+              <p class="font-extrabold uppercase text-xs sm:text-sm mt-2 text-stone-900 text-center">NO PARKING IN THIS AREA</p>
+            </div>
+
+            <div class="space-y-2 text-base text-justify-custom">
+              <label class="flex items-center gap-2 p-2 rounded border border-stone-200 hover:bg-white cursor-pointer"><input type="radio" name="q18" value="A"> A. You can park your car here freely.</label>
+              <label class="flex items-center gap-2 p-2 rounded border border-stone-200 hover:bg-white cursor-pointer"><input type="radio" name="q18" value="B"> B. Do not park your vehicle in this area.</label>
+              <label class="flex items-center gap-2 p-2 rounded border border-stone-200 hover:bg-white cursor-pointer"><input type="radio" name="q18" value="C"> C. Drive slowly in this area.</label>
+              <label class="flex items-center gap-2 p-2 rounded border border-stone-200 hover:bg-white cursor-pointer"><input type="radio" name="q18" value="D"> D. Only buses are allowed to park here.</label>
+            </div>
+          </div>
+
+          <!-- Q19 Closest -->
+          <div class="p-4 mb-4 rounded-lg bg-stone-50 border border-stone-200">
+            <p class="font-semibold mb-2 text-justify-custom"><strong>Question 19:</strong> <em>Choose the option which is <strong>CLOSEST</strong> in meaning to the underlined word:</em></p>
+            <p class="italic mb-3 text-justify-custom">Doing exercise regularly helps you stay <u>fit</u> and strong.</p>
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 text-base">
+              <label class="flex items-center gap-2 p-2 rounded border border-stone-200 hover:bg-white cursor-pointer"><input type="radio" name="q19" value="A"> A. weak</label>
+              <label class="flex items-center gap-2 p-2 rounded border border-stone-200 hover:bg-white cursor-pointer"><input type="radio" name="q19" value="B"> B. healthy</label>
+              <label class="flex items-center gap-2 p-2 rounded border border-stone-200 hover:bg-white cursor-pointer"><input type="radio" name="q19" value="C"> C. sick</label>
+              <label class="flex items-center gap-2 p-2 rounded border border-stone-200 hover:bg-white cursor-pointer"><input type="radio" name="q19" value="D"> D. tired</label>
+            </div>
+          </div>
+
+          <!-- Q20 Opposite -->
+          <div class="p-4 rounded-lg bg-stone-50 border border-stone-200">
+            <p class="font-semibold mb-2 text-justify-custom"><strong>Question 20:</strong> <em>Choose the option which is <strong>OPPOSITE</strong> in meaning to the underlined word:</em></p>
+            <p class="italic mb-3 text-justify-custom">We should avoid eating <u>unhealthy</u> food like potato chips and candy.</p>
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 text-base">
+              <label class="flex items-center gap-2 p-2 rounded border border-stone-200 hover:bg-white cursor-pointer"><input type="radio" name="q20" value="A"> A. harmful</label>
+              <label class="flex items-center gap-2 p-2 rounded border border-stone-200 hover:bg-white cursor-pointer"><input type="radio" name="q20" value="B"> B. bad</label>
+              <label class="flex items-center gap-2 p-2 rounded border border-stone-200 hover:bg-white cursor-pointer"><input type="radio" name="q20" value="C"> C. wholesome</label>
+              <label class="flex items-center gap-2 p-2 rounded border border-stone-200 hover:bg-white cursor-pointer"><input type="radio" name="q20" value="D"> D. dangerous</label>
+            </div>
+          </div>
+        </div>
+      </section>
+
+
+      <!-- ================= C. READING ================= -->
+      <section class="bg-white p-6 sm:p-8 rounded-xl shadow-md border border-stone-300">
+        <div class="border-b-2 border-stone-800 pb-2 mb-6">
+          <h2 class="text-xl sm:text-2xl font-bold uppercase text-stone-900 tracking-wide">C. READING</h2>
+        </div>
+
+        <!-- Part 1: Cloze test -->
+        <div class="mb-10">
+          <h3 class="font-bold text-lg text-blue-900 mb-3 italic text-justify-custom">Part 1. Read the following passage and choose the correct option A, B, C or D to fill in each blank from 21 to 25. (1.25 points)</h3>
+          
+          <div class="p-5 bg-amber-50 rounded-lg border border-amber-200 text-stone-800 leading-relaxed mb-6 text-justify-custom">
+            Hobbies give us pleasure and help us relax after stressful working hours. There are many types of hobbies such as collecting things, playing sports, or <strong>(21)</strong> _______ crafts. Some hobbies are very cheap, while others can be quite expensive. For example, collecting glass bottles is a cheap hobby because you can find empty bottles everywhere. All you need to do is clean them and keep them in a safe place. <strong>(22)</strong> _______, making dollhouses requires more time and patience. You have to buy glue, cardboard, and small tools to build furniture. No matter what your hobby is, it can bring you many <strong>(23)</strong> _______. First, it helps you learn new skills and <strong>(24)</strong> _______ your creativity. Second, sharing your hobby with friends makes you feel happier and more <strong>(25)</strong> _______.
+          </div>
+
+          <div class="space-y-4">
+            <!-- Q21 -->
+            <div class="p-4 rounded-lg bg-stone-50 border border-stone-200">
+              <p class="font-semibold mb-2 text-justify-custom"><strong>Question 21:</strong></p>
+              <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 text-base">
+                <label class="flex items-center gap-2 p-2 rounded border border-stone-200 hover:bg-white cursor-pointer"><input type="radio" name="q21" value="A"> A. making</label>
+                <label class="flex items-center gap-2 p-2 rounded border border-stone-200 hover:bg-white cursor-pointer"><input type="radio" name="q21" value="B"> B. doing</label>
+                <label class="flex items-center gap-2 p-2 rounded border border-stone-200 hover:bg-white cursor-pointer"><input type="radio" name="q21" value="C"> C. taking</label>
+                <label class="flex items-center gap-2 p-2 rounded border border-stone-200 hover:bg-white cursor-pointer"><input type="radio" name="q21" value="D"> D. playing</label>
+              </div>
+            </div>
+
+            <!-- Q22 -->
+            <div class="p-4 rounded-lg bg-stone-50 border border-stone-200">
+              <p class="font-semibold mb-2 text-justify-custom"><strong>Question 22:</strong></p>
+              <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 text-base">
+                <label class="flex items-center gap-2 p-2 rounded border border-stone-200 hover:bg-white cursor-pointer"><input type="radio" name="q22" value="A"> A. However</label>
+                <label class="flex items-center gap-2 p-2 rounded border border-stone-200 hover:bg-white cursor-pointer"><input type="radio" name="q22" value="B"> B. So</label>
+                <label class="flex items-center gap-2 p-2 rounded border border-stone-200 hover:bg-white cursor-pointer"><input type="radio" name="q22" value="C"> C. Because</label>
+                <label class="flex items-center gap-2 p-2 rounded border border-stone-200 hover:bg-white cursor-pointer"><input type="radio" name="q22" value="D"> D. Therefore</label>
+              </div>
+            </div>
+
+            <!-- Q23 -->
+            <div class="p-4 rounded-lg bg-stone-50 border border-stone-200">
+              <p class="font-semibold mb-2 text-justify-custom"><strong>Question 23:</strong></p>
+              <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 text-base">
+                <label class="flex items-center gap-2 p-2 rounded border border-stone-200 hover:bg-white cursor-pointer"><input type="radio" name="q23" value="A"> A. benefits</label>
+                <label class="flex items-center gap-2 p-2 rounded border border-stone-200 hover:bg-white cursor-pointer"><input type="radio" name="q23" value="B"> B. problems</label>
+                <label class="flex items-center gap-2 p-2 rounded border border-stone-200 hover:bg-white cursor-pointer"><input type="radio" name="q23" value="C"> C. diseases</label>
+                <label class="flex items-center gap-2 p-2 rounded border border-stone-200 hover:bg-white cursor-pointer"><input type="radio" name="q23" value="D"> D. difficulties</label>
+              </div>
+            </div>
+
+            <!-- Q24 -->
+            <div class="p-4 rounded-lg bg-stone-50 border border-stone-200">
+              <p class="font-semibold mb-2 text-justify-custom"><strong>Question 24:</strong></p>
+              <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 text-base">
+                <label class="flex items-center gap-2 p-2 rounded border border-stone-200 hover:bg-white cursor-pointer"><input type="radio" name="q24" value="A"> A. develop</label>
+                <label class="flex items-center gap-2 p-2 rounded border border-stone-200 hover:bg-white cursor-pointer"><input type="radio" name="q24" value="B"> B. reduce</label>
+                <label class="flex items-center gap-2 p-2 rounded border border-stone-200 hover:bg-white cursor-pointer"><input type="radio" name="q24" value="C"> C. hurt</label>
+                <label class="flex items-center gap-2 p-2 rounded border border-stone-200 hover:bg-white cursor-pointer"><input type="radio" name="q24" value="D"> D. stop</label>
+              </div>
+            </div>
+
+            <!-- Q25 -->
+            <div class="p-4 rounded-lg bg-stone-50 border border-stone-200">
+              <p class="font-semibold mb-2 text-justify-custom"><strong>Question 25:</strong></p>
+              <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 text-base">
+                <label class="flex items-center gap-2 p-2 rounded border border-stone-200 hover:bg-white cursor-pointer"><input type="radio" name="q25" value="A"> A. confident</label>
+                <label class="flex items-center gap-2 p-2 rounded border border-stone-200 hover:bg-white cursor-pointer"><input type="radio" name="q25" value="B"> B. confidence</label>
+                <label class="flex items-center gap-2 p-2 rounded border border-stone-200 hover:bg-white cursor-pointer"><input type="radio" name="q25" value="C"> C. confidently</label>
+                <label class="flex items-center gap-2 p-2 rounded border border-stone-200 hover:bg-white cursor-pointer"><input type="radio" name="q25" value="D"> D. unconfident</label>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Part 2: Reading Comprehension -->
+        <div>
+          <h3 class="font-bold text-lg text-blue-900 mb-3 italic text-justify-custom">Part 2. Read the following passage and choose the correct answer A, B, C or D to each question from 26 to 30. (1.25 points)</h3>
+          
+          <div class="p-5 bg-sky-50 rounded-lg border border-sky-200 text-stone-800 leading-relaxed mb-6 space-y-3 text-justify-custom">
+            <p>Many teenagers today face health problems because of bad eating habits and lack of physical exercise. A recent survey shows that more than 30% of secondary school students eat fast food at least three times a week. Fast food contains a lot of fat, salt, and sugar, which can lead to overweight and obesity. Furthermore, many students spend hours sitting in front of screens playing video games instead of doing outdoor activities.</p>
+            <p>To build a healthy lifestyle, doctors suggest that teenagers should change their daily routines. First, <strong>they</strong> should replace soft drinks and junk food with fresh fruit, vegetables, and plain water. Fresh fruits provide essential vitamins that boost the immune system. Second, doing at least 30 minutes of physical exercise every day, such as cycling, swimming, or playing badminton, helps keep the body fit and strong. Finally, getting enough sleep (8 to 9 hours per night) is crucial for mental and physical recovery.</p>
+          </div>
+
+          <div class="space-y-4">
+            <!-- Q26 -->
+            <div class="p-4 rounded-lg bg-stone-50 border border-stone-200">
+              <p class="font-semibold mb-2 text-justify-custom"><strong>Question 26:</strong> What is the main topic of the passage?</p>
+              <div class="space-y-2 text-base text-justify-custom">
+                <label class="flex items-center gap-2 p-2 rounded border border-stone-200 hover:bg-white cursor-pointer"><input type="radio" name="q26" value="A"> A. How to play video games safely</label>
+                <label class="flex items-center gap-2 p-2 rounded border border-stone-200 hover:bg-white cursor-pointer"><input type="radio" name="q26" value="B"> B. Health problems in teenagers and advice for a healthy lifestyle</label>
+                <label class="flex items-center gap-2 p-2 rounded border border-stone-200 hover:bg-white cursor-pointer"><input type="radio" name="q26" value="C"> C. The history of fast food restaurants</label>
+                <label class="flex items-center gap-2 p-2 rounded border border-stone-200 hover:bg-white cursor-pointer"><input type="radio" name="q26" value="D"> D. How to become a professional athlete</label>
+              </div>
+            </div>
+
+            <!-- Q27 -->
+            <div class="p-4 rounded-lg bg-stone-50 border border-stone-200">
+              <p class="font-semibold mb-2 text-justify-custom"><strong>Question 27:</strong> According to the passage, what percentage of students eat fast food at least three times a week?</p>
+              <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 text-base">
+                <label class="flex items-center gap-2 p-2 rounded border border-stone-200 hover:bg-white cursor-pointer"><input type="radio" name="q27" value="A"> A. More than 30%</label>
+                <label class="flex items-center gap-2 p-2 rounded border border-stone-200 hover:bg-white cursor-pointer"><input type="radio" name="q27" value="B"> B. Less than 10%</label>
+                <label class="flex items-center gap-2 p-2 rounded border border-stone-200 hover:bg-white cursor-pointer"><input type="radio" name="q27" value="C"> C. Exactly 50%</label>
+                <label class="flex items-center gap-2 p-2 rounded border border-stone-200 hover:bg-white cursor-pointer"><input type="radio" name="q27" value="D"> D. Almost 80%</label>
+              </div>
+            </div>
+
+            <!-- Q28 -->
+            <div class="p-4 rounded-lg bg-stone-50 border border-stone-200">
+              <p class="font-semibold mb-2 text-justify-custom"><strong>Question 28:</strong> Why is fast food harmful to health?</p>
+              <div class="space-y-2 text-base text-justify-custom">
+                <label class="flex items-center gap-2 p-2 rounded border border-stone-200 hover:bg-white cursor-pointer"><input type="radio" name="q28" value="A"> A. It contains too many vitamins.</label>
+                <label class="flex items-center gap-2 p-2 rounded border border-stone-200 hover:bg-white cursor-pointer"><input type="radio" name="q28" value="B"> B. It contains a lot of fat, salt, and sugar.</label>
+                <label class="flex items-center gap-2 p-2 rounded border border-stone-200 hover:bg-white cursor-pointer"><input type="radio" name="q28" value="C"> C. It takes too long to cook.</label>
+                <label class="flex items-center gap-2 p-2 rounded border border-stone-200 hover:bg-white cursor-pointer"><input type="radio" name="q28" value="D"> D. It is too expensive for students.</label>
+              </div>
+            </div>
+
+            <!-- Q29 -->
+            <div class="p-4 rounded-lg bg-stone-50 border border-stone-200">
+              <p class="font-semibold mb-2 text-justify-custom"><strong>Question 29:</strong> The word "<strong>they</strong>" in paragraph 2 refers to _______.</p>
+              <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 text-base">
+                <label class="flex items-center gap-2 p-2 rounded border border-stone-200 hover:bg-white cursor-pointer"><input type="radio" name="q29" value="A"> A. doctors</label>
+                <label class="flex items-center gap-2 p-2 rounded border border-stone-200 hover:bg-white cursor-pointer"><input type="radio" name="q29" value="B"> B. teenagers</label>
+                <label class="flex items-center gap-2 p-2 rounded border border-stone-200 hover:bg-white cursor-pointer"><input type="radio" name="q29" value="C"> C. soft drinks</label>
+                <label class="flex items-center gap-2 p-2 rounded border border-stone-200 hover:bg-white cursor-pointer"><input type="radio" name="q29" value="D"> D. video games</label>
+              </div>
+            </div>
+
+            <!-- Q30 -->
+            <div class="p-4 rounded-lg bg-stone-50 border border-stone-200">
+              <p class="font-semibold mb-2 text-justify-custom"><strong>Question 30:</strong> Which of the following is <strong>NOT</strong> recommended by doctors?</p>
+              <div class="space-y-2 text-base text-justify-custom">
+                <label class="flex items-center gap-2 p-2 rounded border border-stone-200 hover:bg-white cursor-pointer"><input type="radio" name="q30" value="A"> A. Eating fresh fruits and vegetables</label>
+                <label class="flex items-center gap-2 p-2 rounded border border-stone-200 hover:bg-white cursor-pointer"><input type="radio" name="q30" value="B"> B. Drinking plenty of plain water</label>
+                <label class="flex items-center gap-2 p-2 rounded border border-stone-200 hover:bg-white cursor-pointer"><input type="radio" name="q30" value="C"> C. Spending hours playing video games every day</label>
+                <label class="flex items-center gap-2 p-2 rounded border border-stone-200 hover:bg-white cursor-pointer"><input type="radio" name="q30" value="D"> D. Exercising for at least 30 minutes a day</label>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+
+      <!-- ================= D. WRITING ================= -->
+      <section class="bg-white p-6 sm:p-8 rounded-xl shadow-md border border-stone-300">
+        <div class="border-b-2 border-stone-800 pb-2 mb-6">
+          <h2 class="text-xl sm:text-2xl font-bold uppercase text-stone-900 tracking-wide">D. WRITING</h2>
+        </div>
+
+        <!-- Part 1: Error Identification -->
+        <div class="mb-10">
+          <h3 class="font-bold text-lg text-blue-900 mb-3 italic text-justify-custom">Part 1. Mark the letter A, B, C or D on your answer sheet to indicate the underlined part that needs correction in each of the following questions. (1.0 point)</h3>
+
+          <!-- Q31 -->
+          <div class="p-4 mb-4 rounded-lg bg-stone-50 border border-stone-200">
+            <p class="font-semibold mb-3 text-justify-custom"><strong>Question 31:</strong> My sister <u>enjoys</u> (A) <u>to cook</u> (B) delicious meals <u>for</u> (C) our family <u>on</u> (D) weekends.</p>
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 text-base">
+              <label class="flex items-center gap-2 p-2 rounded border border-stone-200 hover:bg-white cursor-pointer"><input type="radio" name="q31" value="A"> A. enjoys</label>
+              <label class="flex items-center gap-2 p-2 rounded border border-stone-200 hover:bg-white cursor-pointer"><input type="radio" name="q31" value="B"> B. to cook</label>
+              <label class="flex items-center gap-2 p-2 rounded border border-stone-200 hover:bg-white cursor-pointer"><input type="radio" name="q31" value="C"> C. for</label>
+              <label class="flex items-center gap-2 p-2 rounded border border-stone-200 hover:bg-white cursor-pointer"><input type="radio" name="q31" value="D"> D. on</label>
+            </div>
+          </div>
+
+          <!-- Q32 -->
+          <div class="p-4 mb-4 rounded-lg bg-stone-50 border border-stone-200">
+            <p class="font-semibold mb-3 text-justify-custom"><strong>Question 32:</strong> Last week, we <u>collect</u> (A) hundreds of <u>used</u> (B) books <u>to donate</u> (C) <u>to poor children</u> (D).</p>
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 text-base">
+              <label class="flex items-center gap-2 p-2 rounded border border-stone-200 hover:bg-white cursor-pointer"><input type="radio" name="q32" value="A"> A. collect</label>
+              <label class="flex items-center gap-2 p-2 rounded border border-stone-200 hover:bg-white cursor-pointer"><input type="radio" name="q32" value="B"> B. used</label>
+              <label class="flex items-center gap-2 p-2 rounded border border-stone-200 hover:bg-white cursor-pointer"><input type="radio" name="q32" value="C"> C. to donate</label>
+              <label class="flex items-center gap-2 p-2 rounded border border-stone-200 hover:bg-white cursor-pointer"><input type="radio" name="q32" value="D"> D. to poor children</label>
+            </div>
+          </div>
+
+          <!-- Q33 -->
+          <div class="p-4 mb-4 rounded-lg bg-stone-50 border border-stone-200">
+            <p class="font-semibold mb-3 text-justify-custom"><strong>Question 33:</strong> <u>Eating</u> (A) too much <u>candy</u> (B) <u>are</u> (C) bad for your <u>teeth</u> (D).</p>
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 text-base">
+              <label class="flex items-center gap-2 p-2 rounded border border-stone-200 hover:bg-white cursor-pointer"><input type="radio" name="q33" value="A"> A. Eating</label>
+              <label class="flex items-center gap-2 p-2 rounded border border-stone-200 hover:bg-white cursor-pointer"><input type="radio" name="q33" value="B"> B. candy</label>
+              <label class="flex items-center gap-2 p-2 rounded border border-stone-200 hover:bg-white cursor-pointer"><input type="radio" name="q33" value="C"> C. are</label>
+              <label class="flex items-center gap-2 p-2 rounded border border-stone-200 hover:bg-white cursor-pointer"><input type="radio" name="q33" value="D"> D. teeth</label>
+            </div>
+          </div>
+
+          <!-- Q34 -->
+          <div class="p-4 rounded-lg bg-stone-50 border border-stone-200">
+            <p class="font-semibold mb-3 text-justify-custom"><strong>Question 34:</strong> He <u>doesn't</u> (A) drink <u>many</u> (B) water, <u>so</u> (C) his skin is very <u>dry</u> (D).</p>
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 text-base">
+              <label class="flex items-center gap-2 p-2 rounded border border-stone-200 hover:bg-white cursor-pointer"><input type="radio" name="q34" value="A"> A. doesn't</label>
+              <label class="flex items-center gap-2 p-2 rounded border border-stone-200 hover:bg-white cursor-pointer"><input type="radio" name="q34" value="B"> B. many</label>
+              <label class="flex items-center gap-2 p-2 rounded border border-stone-200 hover:bg-white cursor-pointer"><input type="radio" name="q34" value="C"> C. so</label>
+              <label class="flex items-center gap-2 p-2 rounded border border-stone-200 hover:bg-white cursor-pointer"><input type="radio" name="q34" value="D"> D. dry</label>
+            </div>
+          </div>
+        </div>
+
+        <!-- Part 2: Sentence Rewriting -->
+        <div class="mb-10">
+          <h3 class="font-bold text-lg text-blue-900 mb-3 italic text-justify-custom">Part 2. Rewrite the sentence that is closest in meaning to each of the following questions. (0.75 point)</h3>
+
+          <!-- Q35 -->
+          <div class="p-4 mb-4 rounded-lg bg-stone-50 border border-stone-200">
+            <p class="font-semibold mb-2 text-justify-custom"><strong>Question 35:</strong> These are Mai's pens and they are on the bookshelf.</p>
+            <div class="flex flex-col sm:flex-row sm:items-center gap-2 text-base">
+              <span class="font-bold text-blue-900 whitespace-nowrap">➜ Mai's pens</span>
+              <input type="text" id="q35" placeholder="nhập phần viết tiếp vào đây..." class="w-full px-3 py-2 border border-stone-300 rounded focus:ring-2 focus:ring-blue-600 focus:outline-none">
+            </div>
+          </div>
+
+          <!-- Q36 -->
+          <div class="p-4 mb-4 rounded-lg bg-stone-50 border border-stone-200">
+            <p class="font-semibold mb-2 text-justify-custom"><strong>Question 36:</strong> My father finds collecting old stamps very interesting.</p>
+            <div class="flex flex-col sm:flex-row sm:items-center gap-2 text-base">
+              <span class="font-bold text-blue-900 whitespace-nowrap">➜ My father's hobby</span>
+              <input type="text" id="q36" placeholder="nhập phần viết tiếp vào đây..." class="w-full px-3 py-2 border border-stone-300 rounded focus:ring-2 focus:ring-blue-600 focus:outline-none">
+            </div>
+          </div>
+
+          <!-- Q37 -->
+          <div class="p-4 rounded-lg bg-stone-50 border border-stone-200">
+            <p class="font-semibold mb-2 text-justify-custom"><strong>Question 37:</strong> Minh was lazy, so he failed the English test last week.</p>
+            <div class="flex flex-col sm:flex-row sm:items-center gap-2 text-base">
+              <span class="font-bold text-blue-900 whitespace-nowrap">➜ Because Minh</span>
+              <input type="text" id="q37" placeholder="nhập phần viết tiếp vào đây..." class="w-full px-3 py-2 border border-stone-300 rounded focus:ring-2 focus:ring-blue-600 focus:outline-none">
+            </div>
+          </div>
+        </div>
+
+        <!-- Part 3: Sentence Rearrangement -->
+        <div>
+          <h3 class="font-bold text-lg text-blue-900 mb-3 italic text-justify-custom">Part 3. Rearrange the words to make complete sentences. (0.75 point)</h3>
+
+          <!-- Q38 -->
+          <div class="p-4 mb-4 rounded-lg bg-stone-50 border border-stone-200">
+            <p class="font-semibold mb-2 text-justify-custom"><strong>Question 38:</strong> Nam/ football/ usually/ plays/ with his friends/ after school/ .</p>
+            <div class="flex flex-col sm:flex-row sm:items-center gap-2 text-base">
+              <span class="font-bold text-blue-900 whitespace-nowrap">➜ Nam</span>
+              <input type="text" id="q38" placeholder="nhập phần còn lại của câu..." class="w-full px-3 py-2 border border-stone-300 rounded focus:ring-2 focus:ring-blue-600 focus:outline-none">
+            </div>
+          </div>
+
+          <!-- Q39 -->
+          <div class="p-4 mb-4 rounded-lg bg-stone-50 border border-stone-200">
+            <p class="font-semibold mb-2 text-justify-custom"><strong>Question 39:</strong> We/ planted/ 50/ new trees/ in the school garden/ last month/ .</p>
+            <div class="flex flex-col sm:flex-row sm:items-center gap-2 text-base">
+              <span class="font-bold text-blue-900 whitespace-nowrap">➜ We</span>
+              <input type="text" id="q39" placeholder="nhập phần còn lại của câu..." class="w-full px-3 py-2 border border-stone-300 rounded focus:ring-2 focus:ring-blue-600 focus:outline-none">
+            </div>
+          </div>
+
+          <!-- Q40 -->
+          <div class="p-4 rounded-lg bg-stone-50 border border-stone-200">
+            <p class="font-semibold mb-2 text-justify-custom"><strong>Question 40:</strong> Drinking/ enough/ water/ keeps/ your body/ healthy/ and/ hydrated/ .</p>
+            <div class="flex flex-col sm:flex-row sm:items-center gap-2 text-base">
+              <span class="font-bold text-blue-900 whitespace-nowrap">➜ Drinking</span>
+              <input type="text" id="q40" placeholder="nhập phần còn lại của câu..." class="w-full px-3 py-2 border border-stone-300 rounded focus:ring-2 focus:ring-blue-600 focus:outline-none">
+            </div>
+          </div>
+        </div>
+
+      </section>
+
+      <!-- Bottom Submit Button -->
+      <div class="text-center pt-4 pb-12">
+        <button type="button" onclick="openConfirmModal()" class="px-10 py-3.5 bg-green-700 hover:bg-green-800 text-white font-bold text-xl rounded-lg shadow-lg hover:shadow-xl transition transform active:scale-95 duration-150">
+          HOÀN THÀNH & NỘP BÀI
+        </button>
+      </div>
+    </form>
+  </main>
+
+  <!-- ==================== MÀN HÌNH KẾT QUẢ & LỜI GIẢI CHI TIẾT ==================== -->
+  <section id="result-screen" class="hidden max-w-4xl mx-auto w-full px-4 py-8">
+    <div class="bg-white p-6 sm:p-8 rounded-xl shadow-xl border border-stone-300 mb-8">
+      <div class="text-center border-b pb-6">
+        <span class="px-3 py-1 bg-green-100 text-green-800 font-bold rounded-full text-sm uppercase tracking-wide">Đã hoàn thành bài kiểm tra</span>
+        <h2 class="text-3xl font-extrabold text-blue-900 mt-2">KẾT QUẢ BÀI THI</h2>
+        <p class="text-stone-600 font-medium mt-1" id="res-student-info">Học sinh: -- | Lớp: --</p>
+      </div>
+
+      <!-- Khung Điểm số -->
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 my-6 text-center">
+        <div class="p-4 bg-stone-50 border rounded-lg">
+          <p class="text-sm font-semibold text-stone-500 uppercase">Thời gian làm</p>
+          <p id="res-time-spent" class="text-2xl font-bold text-stone-800">--</p>
+        </div>
+        <div class="p-4 bg-blue-50 border border-blue-200 rounded-lg">
+          <p class="text-sm font-semibold text-blue-800 uppercase">Số câu đúng</p>
+          <p id="res-correct-count" class="text-3xl font-extrabold text-blue-900">0 / 32</p>
+        </div>
+        <div class="p-4 bg-emerald-50 border border-emerald-200 rounded-lg">
+          <p class="text-sm font-semibold text-emerald-800 uppercase">Điểm quy đổi (Thang 10)</p>
+          <p id="res-score-10" class="text-4xl font-black text-emerald-700">0.0</p>
+        </div>
+      </div>
+
+      <div class="text-center pt-2">
+        <button onclick="retakeExam()" class="px-6 py-2.5 bg-blue-800 hover:bg-blue-900 text-white font-bold rounded-lg shadow transition">
+          🔄 Làm lại bài thi
+        </button>
+      </div>
+    </div>
+
+    <!-- Chi tiết đáp án và lời giải -->
+    <div class="bg-white p-6 sm:p-8 rounded-xl shadow-xl border border-stone-300">
+      <h3 class="text-2xl font-bold text-stone-900 border-b-2 border-stone-800 pb-3 mb-6">
+        BẢNG ĐÁP ÁN & LỜI GIẢI CHI TIẾT
+      </h3>
+      <div id="review-list" class="space-y-6">
+        <!-- Rendered by JS -->
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== MODAL XÁC NHẬN NỘP BÀI ==================== -->
+  <div id="confirm-modal" class="hidden fixed inset-0 z-50 bg-black/60 flex items-center justify-center p-4">
+    <div class="bg-white rounded-xl max-w-md w-full p-6 shadow-2xl border border-stone-300 transform transition-all text-center">
+      <div class="w-14 h-14 bg-amber-100 text-amber-600 rounded-full flex items-center justify-center mx-auto mb-4">
+        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
+      </div>
+      <h4 class="text-xl font-bold text-stone-900 mb-2">Xác nhận nộp bài?</h4>
+      <p class="text-stone-600 text-base mb-6" id="modal-unanswered-text">Bạn có chắc chắn muốn nộp bài thi để xem điểm và lời giải chi tiết?</p>
+      
+      <div class="flex justify-center gap-3">
+        <button onclick="closeConfirmModal()" class="px-5 py-2.5 bg-stone-200 hover:bg-stone-300 text-stone-800 font-semibold rounded-lg transition">
+          Tiếp tục làm bài
+        </button>
+        <button onclick="submitExam()" class="px-6 py-2.5 bg-green-700 hover:bg-green-800 text-white font-bold rounded-lg shadow transition">
+          Đồng ý nộp bài
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== SCRIPT XỬ LÝ TOÀN BỘ ==================== -->
+  <script>
+    // Dữ liệu đáp án & lời giải chi tiết
+    const EXAM_DATA = {
+      9: {
+        type: "choice",
+        correct: "B",
+        label: "fast",
+        explain: "Ba từ 'hate', 'take', 'make' có chữ 'a' phát âm là /eɪ/. Từ 'fast' có âm /ɑː/ (theo chuẩn Anh-Anh), nên khác ba từ còn lại."
+      },
+      10: {
+        type: "choice",
+        correct: "D",
+        label: "played",
+        explain: "'started', 'wanted', 'needed' có đuôi -ed phát âm là /ɪd/ (do động từ tận cùng bằng âm /t/ hoặc /d/). Từ 'played' có đuôi -ed phát âm là /d/."
+      },
+      11: {
+        type: "choice",
+        correct: "C",
+        label: "protect",
+        explain: "'garden', 'healthy', 'model' có trọng âm rơi vào âm tiết thứ nhất (âm 1). 'protect' có trọng âm rơi vào âm tiết thứ hai: pro-TECT."
+      },
+      12: {
+        type: "choice",
+        correct: "A",
+        label: "doctor",
+        explain: "Lan bị sốt cao và ho (high fever and cough) nên bạn ấy cần đi khám bác sĩ (doctor)."
+      },
+      13: {
+        type: "choice",
+        correct: "A",
+        label: "building",
+        explain: "Cấu trúc: enjoy + V-ing (thích làm gì). Do đó dùng 'building': 'enjoys building models'."
+      },
+      14: {
+        type: "choice",
+        correct: "B",
+        label: "donated",
+        explain: "'Last year' (năm ngoái) là dấu hiệu nhận biết thì Quá khứ đơn (Past Simple). Động từ 'donate' thêm -ed thành 'donated'."
+      },
+      15: {
+        type: "choice",
+        correct: "C",
+        label: "so",
+        explain: "'so' (vì vậy/do đó) dùng để nối giữa mệnh đề nguyên nhân và kết quả: Bố làm việc vất vả cả ngày, vì thế buổi tối ông ấy cảm thấy mệt."
+      },
+      16: {
+        type: "choice",
+        correct: "A",
+        label: "Great idea!",
+        explain: "Câu 'Why don't we...?' là lời gợi ý/đề xuất cùng làm gì. Lời đáp lại lịch sự và đồng tình phù hợp nhất là 'Great idea!' (Ý hay đấy!)."
+      },
+      17: {
+        type: "choice",
+        correct: "B",
+        label: "Turn off the lights when you leave the classroom.",
+        explain: "Biển báo ghi rõ: 'PLEASE TURN OFF ALL LIGHTS BEFORE LEAVING' -> Hãy tắt tất cả đèn trước khi rời khỏi phòng học."
+      },
+      18: {
+        type: "choice",
+        correct: "B",
+        label: "Do not park your vehicle in this area.",
+        explain: "Biển báo chữ P bị gạch chéo kèm dòng chữ 'NO PARKING IN THIS AREA' có nghĩa là cấm đỗ xe trong khu vực này."
+      },
+      19: {
+        type: "choice",
+        correct: "B",
+        label: "healthy",
+        explain: "Từ 'fit' trong 'stay fit and strong' có nghĩa là khỏe mạnh, cân đối. Từ gần nghĩa nhất là 'healthy'."
+      },
+      20: {
+        type: "choice",
+        correct: "C",
+        label: "wholesome",
+        explain: "'unhealthy' có nghĩa là không lành mạnh, có hại cho sức khỏe. Từ trái nghĩa là 'wholesome' (lành mạnh, tốt cho sức khỏe)."
+      },
+      21: {
+        type: "choice",
+        correct: "A",
+        label: "making",
+        explain: "Cụm cố định: 'make crafts' (làm đồ thủ công). Cấu trúc song song dạng V-ing: collecting, playing, or making crafts."
+      },
+      22: {
+        type: "choice",
+        correct: "A",
+        label: "However",
+        explain: "Câu trước nói về sở thích làm đồ tái chế rất rẻ, câu sau nói làm nhà búp bê tốn nhiều thời gian và tiền mua đồ. Hai câu mang ý tương phản -> dùng 'However' (Tuy nhiên)."
+      },
+      23: {
+        type: "choice",
+        correct: "A",
+        label: "benefits",
+        explain: "Cụm từ: 'bring you many benefits' (mang lại nhiều lợi ích), rất phù hợp với câu tiếp theo đang liệt kê các lợi ích của sở thích."
+      },
+      24: {
+        type: "choice",
+        correct: "A",
+        label: "develop",
+        explain: "Cụm từ: 'develop your creativity' (phát triển sự sáng tạo của bạn)."
+      },
+      25: {
+        type: "choice",
+        correct: "A",
+        label: "confident",
+        explain: "Sau động từ liên kết 'feel' và 'more' cần một tính từ: 'confident' (tự tin)."
+      },
+      26: {
+        type: "choice",
+        correct: "B",
+        label: "Health problems in teenagers and advice for a healthy lifestyle",
+        explain: "Đoạn 1 nêu các vấn đề sức khỏe của thiếu niên (đồ ăn nhanh, ít vận động); Đoạn 2 nêu lời khuyên của bác sĩ để có lối sống lành mạnh."
+      },
+      27: {
+        type: "choice",
+        correct: "A",
+        label: "More than 30%",
+        explain: "Thông tin trong bài: 'A recent survey shows that more than 30% of secondary school students eat fast food at least three times a week.'"
+      },
+      28: {
+        type: "choice",
+        correct: "B",
+        label: "It contains a lot of fat, salt, and sugar.",
+        explain: "Thông tin trong bài: 'Fast food contains a lot of fat, salt, and sugar, which can lead to overweight and obesity.'"
+      },
+      29: {
+        type: "choice",
+        correct: "B",
+        label: "teenagers",
+        explain: "Trong câu: 'doctors suggest that teenagers should change their daily routines. First, they should replace...', đại từ 'they' thay thế cho danh từ 'teenagers' đi trước."
+      },
+      30: {
+        type: "choice",
+        correct: "C",
+        label: "Spending hours playing video games every day",
+        explain: "Bác sĩ khuyên ăn rau quả, uống nước lọc, tập thể dục 30 phút mỗi ngày. Việc 'Dành hàng giờ chơi trò chơi điện tử' không phải là lời khuyên có lợi."
+      },
+      31: {
+        type: "choice",
+        correct: "B",
+        label: "to cook",
+        explain: "Sau 'enjoy' phải dùng V-ing: enjoy + cooking. Sửa 'to cook' thành 'cooking'."
+      },
+      32: {
+        type: "choice",
+        correct: "A",
+        label: "collect",
+        explain: "Có trạng từ chỉ thời gian 'Last week' (quá khứ đơn), động từ 'collect' cần chia quá khứ là 'collected'."
+      },
+      33: {
+        type: "choice",
+        correct: "C",
+        label: "are",
+        explain: "Danh động từ 'Eating too much candy' làm chủ ngữ số ít, nên động từ to be phải chia là 'is' thay vì 'are'."
+      },
+      34: {
+        type: "choice",
+        correct: "B",
+        label: "many",
+        explain: "'water' là danh từ không đếm được nên dùng lượng từ 'much', không dùng 'many'. Sửa 'many' thành 'much'."
+      },
+      35: {
+        type: "text",
+        prompt: "➜ Mai's pens ",
+        acceptRegex: /^are\s+on\s+the\s+bookshelf\.?$/i,
+        correctFull: "Mai's pens are on the bookshelf.",
+        modelText: "are on the bookshelf.",
+        explain: "Gộp hai vế 'These are Mai's pens and they are on the bookshelf' thành một câu hoàn chỉnh: Mai's pens are on the bookshelf."
+      },
+      36: {
+        type: "text",
+        prompt: "➜ My father's hobby ",
+        acceptRegex: /^is\s+collecting\s+old\s+stamps\.?$/i,
+        correctFull: "My father's hobby is collecting old stamps.",
+        modelText: "is collecting old stamps.",
+        explain: "Cấu trúc: 'find doing something + adj' tương đương với '(one's) hobby is + V-ing': My father's hobby is collecting old stamps."
+      },
+      37: {
+        type: "text",
+        prompt: "➜ Because Minh ",
+        acceptRegex: /^was\s+lazy,\s*he\s+failed\s+the\s+english\s+test\s+last\s+week\.?$/i,
+        correctFull: "Because Minh was lazy, he failed the English test last week.",
+        modelText: "was lazy, he failed the English test last week.",
+        explain: "Câu gốc dùng 'so' chỉ kết quả: 'Minh was lazy, so he failed...'. Chuyển sang mệnh đề 'Because': Because Minh was lazy, he failed the English test last week."
+      },
+      38: {
+        type: "text",
+        prompt: "➜ Nam ",
+        acceptRegex: /^usually\s+plays\s+football\s+with\s+his\s+friends\s+after\s+school\.?$/i,
+        correctFull: "Nam usually plays football with his friends after school.",
+        modelText: "usually plays football with his friends after school.",
+        explain: "Trật tự câu: Chủ ngữ (Nam) + Trạng từ tần suất (usually) + Động từ (plays) + Tân ngữ (football) + with his friends + after school."
+      },
+      39: {
+        type: "text",
+        prompt: "➜ We ",
+        acceptRegex: /^planted\s+50\s+new\s+trees\s+in\s+the\s+school\s+garden\s+last\s+month\.?$/i,
+        correctFull: "We planted 50 new trees in the school garden last month.",
+        modelText: "planted 50 new trees in the school garden last month.",
+        explain: "Trật tự câu: Chủ ngữ (We) + Động từ quá khứ (planted) + Tân ngữ (50 new trees) + Nơi chốn (in the school garden) + Thời gian (last month)."
+      },
+      40: {
+        type: "text",
+        prompt: "➜ Drinking ",
+        acceptRegex: /^enough\s+water\s+keeps\s+your\s+body\s+healthy\s+and\s+hydrated\.?$/i,
+        correctFull: "Drinking enough water keeps your body healthy and hydrated.",
+        modelText: "enough water keeps your body healthy and hydrated.",
+        explain: "Trật tự câu: Cụm V-ing làm chủ ngữ (Drinking enough water) + Động từ (keeps) + Tân ngữ (your body) + Tính từ (healthy and hydrated)."
+      }
+    };
+
+    // Quản lý trạng thái
+    let studentName = "";
+    let studentClass = "";
+    let timerInterval = null;
+    let totalSeconds = 60 * 60; // 60 phút
+    let timeElapsed = 0;
+
+    function startExam() {
+      const nameInput = document.getElementById("student-name").value.trim();
+      const classInput = document.getElementById("student-class").value.trim();
+      const errorMsg = document.getElementById("start-error");
+
+      if (!nameInput || !classInput) {
+        errorMsg.classList.remove("hidden");
+        return;
+      }
+      errorMsg.classList.add("hidden");
+
+      studentName = nameInput;
+      studentClass = classInput;
+
+      // Cập nhật header
+      document.getElementById("header-student-info").textContent = `Học sinh: ${studentName} | Lớp: ${studentClass}`;
+
+      // Chuyển màn hình
+      document.getElementById("start-screen").classList.add("hidden");
+      document.getElementById("exam-header").classList.remove("hidden");
+      document.getElementById("exam-main").classList.remove("hidden");
+
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+
+      // Chạy đồng hồ
+      timerInterval = setInterval(updateTimer, 1000);
+    }
+
+    function updateTimer() {
+      if (totalSeconds <= 0) {
+        clearInterval(timerInterval);
+        submitExam(true); // tự động nộp bài khi hết giờ
+        return;
+      }
+      totalSeconds--;
+      timeElapsed++;
+
+      const mins = Math.floor(totalSeconds / 60);
+      const secs = totalSeconds % 60;
+      const display = `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+      
+      const timerEl = document.getElementById("timer-display");
+      timerEl.textContent = display;
+
+      if (totalSeconds < 300) { // < 5 phút
+        timerEl.classList.add("animate-bounce");
+      }
+    }
+
+    function openConfirmModal() {
+      // Đếm số câu chưa làm
+      let unanswered = 0;
+      for (let i = 9; i <= 34; i++) {
+        const checked = document.querySelector(`input[name="q${i}"]:checked`);
+        if (!checked) unanswered++;
+      }
+      for (let i = 35; i <= 40; i++) {
+        const val = document.getElementById(`q${i}`).value.trim();
+        if (!val) unanswered++;
+      }
+
+      const textEl = document.getElementById("modal-unanswered-text");
+      if (unanswered > 0) {
+        textEl.innerHTML = `Bạn còn <strong class="text-red-600">${unanswered} câu chưa hoàn thành</strong>.<br>Bạn có chắc chắn muốn nộp bài ngay bây giờ?`;
+      } else {
+        textEl.innerHTML = "Bạn đã hoàn thành tất cả các câu hỏi!<br>Bạn có chắc chắn muốn nộp bài để xem điểm số?";
+      }
+
+      document.getElementById("confirm-modal").classList.remove("hidden");
+    }
+
+    function closeConfirmModal() {
+      document.getElementById("confirm-modal").classList.add("hidden");
+    }
+
+    function cleanString(str) {
+      return str.trim().replace(/\s+/g, ' ').toLowerCase();
+    }
+
+    function submitExam(isAuto = false) {
+      if (timerInterval) clearInterval(timerInterval);
+      closeConfirmModal();
+
+      let correctCount = 0;
+      const totalQuestions = 32;
+      const reviewContainer = document.getElementById("review-list");
+      reviewContainer.innerHTML = "";
+
+      // Thu thập câu trả lời và chấm điểm
+      for (let q = 9; q <= 40; q++) {
+        const qData = EXAM_DATA[q];
+        let isCorrect = false;
+        let studentAnswerText = "";
+
+        if (qData.type === "choice") {
+          const selectedRadio = document.querySelector(`input[name="q${q}"]:checked`);
+          const ans = selectedRadio ? selectedRadio.value : "";
+          isCorrect = (ans === qData.correct);
+          studentAnswerText = ans ? `Phương án ${ans}` : "(Chưa chọn)";
+        } else {
+          // Tự luận
+          const inputVal = document.getElementById(`q${q}`).value.trim();
+          studentAnswerText = inputVal ? inputVal : "(Chưa nhập)";
+          // Kiểm tra Regex hoặc exact
+          const cleaned = cleanString(inputVal);
+          isCorrect = qData.acceptRegex.test(cleaned);
+        }
+
+        if (isCorrect) correctCount++;
+
+        // Tạo thẻ đánh giá chi tiết
+        const card = document.createElement("div");
+        card.className = `p-5 rounded-xl border ${isCorrect ? 'bg-emerald-50/70 border-emerald-300' : 'bg-red-50/70 border-red-300'} transition`;
+
+        let headerBadge = isCorrect 
+          ? `<span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold bg-emerald-100 text-emerald-800">✓ ĐÚNG</span>` 
+          : `<span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold bg-red-100 text-red-800">✕ SAI</span>`;
+
+        let questionPrompt = "";
+        let correctDisplay = "";
+
+        if (qData.type === "choice") {
+          correctDisplay = `<strong>${qData.correct}</strong> ${qData.label ? `(${qData.label})` : ''}`;
+        } else {
+          correctDisplay = `<div class="mt-1 font-mono text-emerald-900 bg-emerald-100/60 p-2 rounded">
+            <strong>Câu đầy đủ:</strong> ${qData.correctFull}<br>
+            <strong>Phần viết tiếp:</strong> ${qData.modelText}
+          </div>`;
+        }
+
+        card.innerHTML = `
+          <div class="flex items-center justify-between mb-2">
+            <h4 class="font-bold text-stone-900 text-lg">Câu ${q}:</h4>
+            ${headerBadge}
+          </div>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-2 text-base mb-3 text-justify-custom">
+            <p><span class="font-semibold text-stone-600">Câu trả lời của bạn:</span> <span class="${isCorrect ? 'text-emerald-700 font-bold' : 'text-red-700 font-bold'}">${studentAnswerText}</span></p>
+            <div><span class="font-semibold text-stone-600">Đáp án chính xác:</span> ${correctDisplay}</div>
+          </div>
+          <div class="bg-white/80 p-3 rounded-lg border border-stone-200 text-sm sm:text-base text-stone-800 text-justify-custom">
+            <strong class="text-blue-900">💡 Lời giải chi tiết:</strong> ${qData.explain}
+          </div>
+        `;
+
+        reviewContainer.appendChild(card);
+      }
+
+      // Tính điểm thang 10
+      const score10 = ((correctCount / totalQuestions) * 10).toFixed(2);
+      const minutesSpent = Math.floor(timeElapsed / 60);
+      const secondsSpent = timeElapsed % 60;
+
+      // Cập nhật màn hình kết quả
+      document.getElementById("res-student-info").textContent = `Học sinh: ${studentName} | Lớp: ${studentClass}`;
+      document.getElementById("res-time-spent").textContent = `${minutesSpent} phút ${secondsSpent} giây`;
+      document.getElementById("res-correct-count").textContent = `${correctCount} / ${totalQuestions} câu`;
+      document.getElementById("res-score-10").textContent = score10;
+
+      // Ẩn exam, mở result
+      document.getElementById("exam-header").classList.add("hidden");
+      document.getElementById("exam-main").classList.add("hidden");
+      document.getElementById("result-screen").classList.remove("hidden");
+
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function retakeExam() {
+      // Reset form
+      document.getElementById("quiz-form").reset();
+      for (let i = 35; i <= 40; i++) {
+        document.getElementById(`q${i}`).value = "";
+      }
+      totalSeconds = 60 * 60;
+      timeElapsed = 0;
+      document.getElementById("timer-display").textContent = "60:00";
+      document.getElementById("timer-display").classList.remove("animate-bounce");
+
+      document.getElementById("result-screen").classList.add("hidden");
+      document.getElementById("start-screen").classList.remove("hidden");
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  </script>
+</body>
+</html>
